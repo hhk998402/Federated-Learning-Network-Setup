@@ -186,9 +186,11 @@ for comm_round in range(comms_round):
     for client in client_names:
       print("sending for client "+client)
       weights = jsonpickle.encode(global_weights)
-      resp = requests.post(ngrok_url+'/sendWeights', json = {'data' : weights,'client':client})
+      resp = requests.post(ngrok_url+'/sendWeights', json = {'data' : weights,'client':client}).json()
       #print("response json encode:"+resp.text)
-      scaled_weights=jsonpickle.decode(resp.text)
+      scaled_weights=jsonpickle.decode(resp['client_model_weights'])
+      timing_data = resp['timing_data']
+      print("Timing data: ", timing_data)
       scaled_local_weight_list.append(scaled_weights)
         
     #to get the average over all the local model, we simply take the sum of the scaled weights

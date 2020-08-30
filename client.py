@@ -24,9 +24,12 @@ import pickle
 import jsonpickle
 import json
 
+#Imports necessary for recording performance metrics
+import time
+
 #from flask_ngrok import run_with_ngrok
 from flask import Flask
-from flask import request
+from flask import request, jsonify
 
 
 def load(paths, verbose=-1):
@@ -181,6 +184,7 @@ app = Flask(__name__)
 
 @app.route("/sendWeights", methods = ['POST'])
 def home():
+    tic = time.perf_counter() #START timer
     data = request.get_json()['data']
     client = request.get_json()['client']
     weight = jsonpickle.decode(data)
@@ -207,6 +211,16 @@ def home():
     #print(ret_weights)
     #clear session to free memory after each communication round
     K.clear_session()
-    return ret_weights
+    toc = time.perf_counter()
+    timing_data = {
+        'start_time' : tic,
+        'end_time' : toc,
+        'elapsed_time' : toc-tic
+    }
+    return jsonify(
+        client=client
+        timing_data=timing_data
+        client_model_weights=ret_weights
+    )
   
 app.run(host="0.0.0.0")
