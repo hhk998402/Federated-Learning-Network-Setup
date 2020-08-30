@@ -204,4 +204,7 @@ dmypy.json
 #Ignore virtualenv folder
 /fl-env
 
+#Ignore vscode files
+.vscode
+
 # End of https://www.toptal.com/developers/gitignore/api/python,flask
