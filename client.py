@@ -147,16 +147,19 @@ def test_model(X_test, Y_test,  model, comm_round):
     return acc, loss
 
 
-with open('X_train.pkl', 'rb') as f:
-  X_train = pickle.load(f)
+# with open('X_train.pkl', 'rb') as f:
+#   X_train = pickle.load(f)
 
-with open('y_train.pkl', 'rb') as f:
-  y_train = pickle.load(f)
-
-print("Client Data loaded successfuly.......................")
+# with open('y_train.pkl', 'rb') as f:
+#   y_train = pickle.load(f)
 
 #create clients
-clients = create_clients(X_train, y_train, num_clients=10, initial='client')
+with open('clients.pkl', 'rb') as f:
+  clients = pickle.load(f)
+# clients = create_clients(X_train, y_train, num_clients=10, initial='client')
+
+
+print("Client Data loaded successfuly.......................")
 
 #process and batch the training data for each client
 clients_batched = dict()
