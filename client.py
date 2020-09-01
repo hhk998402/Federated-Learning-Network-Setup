@@ -218,8 +218,8 @@ def home():
         'elapsed_time' : toc-tic
     }
     return jsonify(
-        client=client
-        timing_data=timing_data
+        client=client,
+        timing_data=timing_data,
         client_model_weights=ret_weights
     )
   
