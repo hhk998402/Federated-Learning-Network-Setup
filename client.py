@@ -2,6 +2,7 @@ import numpy as np
 import random
 import cv2
 import os
+import psutil
 from imutils import paths
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
@@ -184,6 +185,9 @@ app = Flask(__name__)
 
 @app.route("/sendWeights", methods = ['POST'])
 def home():
+    process = psutil.Process(os.getpid())
+    print("PROCESS ID: ", os.getpid())
+    print(process.memory_info().rss)
     tic = time.perf_counter() #START timer
     data = request.get_json()['data']
     client = request.get_json()['client']
@@ -223,4 +227,4 @@ def home():
         client_model_weights=ret_weights
     )
   
-app.run(host="0.0.0.0")
+app.run(host="0.0.0.0", port=5000)
